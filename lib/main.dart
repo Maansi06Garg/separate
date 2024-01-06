@@ -60,7 +60,7 @@ class _MyAppState extends State<MyApp> {
                            print(au);
                            print(d);
                            print(ad);
-                           // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => cimg(imagePath: _capturedImage!.path),));
+                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => cimg(imagePath: _capturedImage!.path),));
                               // _cropImage(_capturedImage!.path,cropFromLeft:al,cropFromRight:al,cropFromTop:au,cropFromBottom:auAd);
                             },
                             child: const Text(
@@ -75,23 +75,23 @@ class _MyAppState extends State<MyApp> {
                 ),
               );
             }
-            // bool autoCap=false;
+            bool autoCap=false;
             return Stack(
               children: [
                 SmartFaceCamera(
-                  autoCapture: false,
+                  autoCapture: autoCap,
                   defaultCameraLens: CameraLens.front,
                   onCapture: (File? image) {
                     setState(() => _capturedImage = image);
                   },
                   onFaceDetected: (Face? face) {
-                    l=90;
-                    setState(() => _detectedFace = face);
-                    // if(al!>l!&&ar!<r!&&au!>u!&&ad!<d!){
-                    //   setState(() {
-                    //     autoCap=true;
-                    //   });
-                    // }
+                    // l=90;
+                    // setState(() => _detectedFace = face);
+                    if(al!>l!&&ar!<r!&&au!>u!&&ad!<d!){
+                      setState(() {
+                        autoCap=true;
+                      });
+                    }
                   },
                   messageBuilder: (context, face) {
                     if (face == null) {
@@ -103,8 +103,9 @@ class _MyAppState extends State<MyApp> {
                     return const SizedBox.shrink();
                   },
                 ),
-                if (_detectedFace != null)
-                  _drawFaceOverlay(_detectedFace!),
+                _drawFaceOverlay(),
+                // if (_detectedFace != null)
+                //   _drawFaceOverlay(),
               ],
             );
           },
@@ -120,15 +121,15 @@ class _MyAppState extends State<MyApp> {
             fontSize: 14, height: 1.5, fontWeight: FontWeight.w400)),
   );
 
-Widget _drawFaceOverlay(Face face) {
+Widget _drawFaceOverlay() {
   al= MediaQuery.of(context).size.width*20/100;
   au= MediaQuery.of(context).size.height*30/100;
   ar= MediaQuery.of(context).size.width*60/100+MediaQuery.of(context).size.width*20/100;
   ad= MediaQuery.of(context).size.height*40/100+MediaQuery.of(context).size.height*30/100;
-  l=face.boundingBox.left;
-  r=face.boundingBox.left+face.boundingBox.width;
-  u=face.boundingBox.top;
-  d=face.boundingBox.top+face.boundingBox.height;
+  // l=face.boundingBox.left;
+  // r=face.boundingBox.left+face.boundingBox.width;
+  // u=face.boundingBox.top;
+  // d=face.boundingBox.top+face.boundingBox.height;
   return Positioned(
     left: MediaQuery.of(context).size.width*20/100,
     top: MediaQuery.of(context).size.height*30/100,
